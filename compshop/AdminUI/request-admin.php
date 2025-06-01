@@ -1,6 +1,7 @@
+
 <?php
 include '../conn.php';
-require_once '../Prototype_access_control/auth_check.php';
+
 $filtervalues = isset($_GET['search']) ? $_GET['search'] : '';
 $requery = "SELECT * FROM request_table WHERE CONCAT(`service_type`,`customer_name`,`timestamp`) LIKE '%$filtervalues%' ORDER BY `timestamp`";
 $requestResult = mysqli_query($conn, $requery);
@@ -33,6 +34,7 @@ $rowCount = mysqli_num_rows($requestResult);
                     <tr>
                         <th>Service Type</th>
                         <th>Customer Name</th>
+                        <th>Date</th>
                         <th>Time</th>
                         <th>File Upload</th>
                         <th>Actions</th>
@@ -44,6 +46,7 @@ $rowCount = mysqli_num_rows($requestResult);
                         <tr class="fade-in">
                             <td><?= htmlspecialchars($row['service_type']) ?></td>
                             <td><?= htmlspecialchars($row['customer_name']) ?></td>
+                            <td><?= date("M j, Y", strtotime($row['timestamp'])) ?></td>
                             <td><?= date("g:i A", strtotime($row['timestamp'])) ?></td>
                             <td>
                                 <?php if($row['file_upload'] != "../docs/"): ?>
