@@ -78,6 +78,7 @@ if ($viewingFile && !empty($fileToView)) {
                 <tr>
                     <th>Service Type</th>
                     <th>Customer Name</th>
+                    <th>Date</th>
                     <th>Time</th>
                     <th>File Upload</th>
                     <th>Actions</th>
@@ -88,6 +89,7 @@ if ($viewingFile && !empty($fileToView)) {
                     <tr>
                         <td><?php echo htmlspecialchars($row['service_type']) ?></td>
                         <td><?php echo htmlspecialchars($row['customer_name']) ?></td>
+                        <td><?= date("M j, Y", strtotime($row['timestamp'])) ?></td>
                         <td><?php echo date("g:i A", strtotime($row['timestamp'])) ?></td>
                         <td>
                             <?php if($row['file_upload'] != "../docs/"): ?>
