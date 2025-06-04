@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1><i class="fas fa-user-shield"></i> Promote to Administrator</h1>
         </div>
         
-        <form class="promote-form" method="POST">
+        <form class="promote-form" method="POST" action="">
             <div class="form-group">
                 <select class="promote-select" name="user_id" required>
                     <option value="" disabled selected>Select Employee</option>
