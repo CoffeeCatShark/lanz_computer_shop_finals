@@ -7,10 +7,22 @@ $conn = new mysqli('localhost', 'root', '', 'computer_shop');
 $result = $conn->query("SELECT id, username FROM users WHERE role='employee'");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = (int)$_POST['user_id'];
-    $conn->query("UPDATE users SET role='admin' WHERE id=$user_id");
-    header("Location: admin_dashboard.php");
-    exit();
+    if (isset($_POST['user_id'])) {
+        // Promote user to admin
+        $user_id = (int)$_POST['user_id'];
+        $conn->query("UPDATE users SET role='admin' WHERE id=$user_id");
+        header("Location: admin_dashboard.php");
+        exit();
+    } elseif (isset($_POST['delete_self'])) {
+        // Delete current admin account
+        $current_user_id = $_SESSION['user_id'];
+        $conn->query("DELETE FROM users WHERE id=$current_user_id");
+        
+        // Logout and redirect to login page
+        session_destroy();
+        header("Location: ../login.php");
+        exit();
+    }
 }
 ?>
 
@@ -41,10 +53,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="promote-btn promote-btn-primary">
                     <i class="fas fa-user-plus"></i> Promote to Admin
                 </button>
-                <a href="admin_dashboard.php" target="_parent" class="promote-btn promote-btn-secondary">
+            </div>
+            
+            <div class="action-buttons">
+                <a href="welcome.php" target="_parent" class="back-btn">
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
             </div>
+        </form>
+    </div>
+    
+    <!-- Separate Account Management Box -->
+    <div class="account-management-container fade-in">
+        <div class="account-management-header">
+            <i class="fas fa-user-cog"></i> Account Management
+        </div>
+        <form method="POST" onsubmit="return confirm('WARNING: This will permanently delete your account. Are you sure you want to continue?');">
+            <input type="hidden" name="delete_self" value="1">
+            <button type="submit" class="delete-self-btn">
+                <i class="fas fa-trash-alt"></i> Delete My Account
+            </button>
         </form>
     </div>
 </body>
