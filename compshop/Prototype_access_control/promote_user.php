@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Promote user to admin
         $user_id = (int)$_POST['user_id'];
         $conn->query("UPDATE users SET role='admin' WHERE id=$user_id");
-        header("Location: admin_dashboard.php");
+        header("Location: welcome.php");
         exit();
     } elseif (isset($_POST['delete_self'])) {
         // Delete current admin account
